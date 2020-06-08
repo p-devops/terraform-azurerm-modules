@@ -1,9 +1,14 @@
 import "tfplan/v2" as tfplan
 
-for tfplan.resource_changes as res {
-    print(tfplan.resource_changes[res])
-    # tfconfig.module_calls[mod].source
-    # append(modules, modname[2])
-}
+prohibited_res = [
+    "azurerm_resource_group",
+    "azurerm_virtual_network",
+    "azurerm_network_security_group",
+]
 
-main = true
+main = rule {
+    all filter tfplan.resource_changes as _, res {
+        res.type in prohibited_res and
+        res.module_address is ""
+    }
+}
