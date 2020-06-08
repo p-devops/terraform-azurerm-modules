@@ -2,15 +2,7 @@ import "tfplan/v2" as tfplan
 import "http"
 import "json"
 
-# Get all AWS instances from all modules
-# get_aws_instances = func() {
-#     instances = []
-#     for tfplan.module_paths as path {
-#         instances += values(tfplan.module(path).resources.aws_instance) else []
-#     }
-#     return instances
-# }
-
+# Get all Azure VMs from all modules
 azure_vms = filter tfplan.resource_changes as _, res {
     res.mode is "managed" and
     res.type is "azurerm_virtual_machine"
@@ -21,19 +13,19 @@ req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure
 res = json.unmarshal(http.get(req).body)
 allowed_types = res["approved-instances"]
 
-# aws_instances = get_aws_instances()
-
 # Rule to restrict instance types
-# instance_type_allowed = any aws_instances as _, instances {
-#     any instances as index, r {
-#         r.applied.instance_type in allowed_types
-#     }
-# }
+instance_type_allowed = func(vms, types) {
+    for vms as vm {
+        vmsize = tfplan.resource_changes[vm].change.after.vm_size
+        if vmsize not in types {
+            print("VM Size of " + vmsize + " is not allowed")
+            return false
+        }
+    }
+    return true
+}
 
 print(azure_vms)
 
 # Main rule that requires other rules to be true
-main = rule {
-   # (instance_type_allowed) else true
-   true
-}
+main = rule { instance_type_allowed }
