@@ -27,9 +27,20 @@ get_modules = func() {
     return modules
 }
 
+module_list = get_modules()
+
 violations = filter tfplan.resource_changes as _, res {
     res.type in prohibited_resources and
-    res.module_address not in required_modules
+    res.module_address not in module_list
 }
+
+
+print("Modules:")
+print(module_list)
+
+print()
+
+print ("Violations:")
+print(violations)
 
 main = rule { length(violations) == 0 }
