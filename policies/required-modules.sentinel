@@ -8,7 +8,7 @@
 import "tfconfig/v2" as tfconfig
 
 
-print(selected_modules)
+print(tfconfig.module_calls)
 
 # Get all referenced modules
 get_modules = func() {
