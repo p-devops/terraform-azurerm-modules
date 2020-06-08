@@ -1,0 +1,7 @@
+{
+    "required-modules": [
+        "custom-vnet",
+        "custom-sg",
+        "custom-blob"
+    ]
+}

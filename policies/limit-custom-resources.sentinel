@@ -1,6 +1,7 @@
 import "tfplan/v2" as tfplan
 import "tfconfig/v2" as tfconfig
 import "strings"
+import "http"
 
 prohibited_resources = [
     "azurerm_resource_group",
@@ -19,9 +20,10 @@ required_modules = [
 get_modules = func() {
     modules = []
     for tfconfig.module_calls as mod {
-        modname = "module." + strings.split(tfconfig.module_calls[mod].source, "/")[2]
+        modname = strings.split(tfconfig.module_calls[mod].source, "/")[2]
         if modname in required_modules {
-            append(modules, mod)
+            modmod = "module." + mod
+            append(modules, modmod)
         }
     }
     return modules
