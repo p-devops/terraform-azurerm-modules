@@ -1,3 +1,3 @@
 output "ssh" {
-    value = "ssh ${var.linux_user}@${module.custom-vm.public-ip}"
+    value = "ssh ${var.linux_user}@${module.custom_vm.public-ip}"
 }
