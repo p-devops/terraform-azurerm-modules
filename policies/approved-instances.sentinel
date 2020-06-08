@@ -1,34 +1,50 @@
-import "tfplan"
+import "tfplan/v2" as tfplan
+import "http"
+import "json"
 
 # Get all AWS instances from all modules
-get_aws_instances = func() {
-    instances = []
-    for tfplan.module_paths as path {
-        instances += values(tfplan.module(path).resources.aws_instance) else []
-    }
-    return instances
+# get_aws_instances = func() {
+#     instances = []
+#     for tfplan.module_paths as path {
+#         instances += values(tfplan.module(path).resources.aws_instance) else []
+#     }
+#     return instances
+# }
+
+aws_instances = filter tfplan.resource_changes as _, res {
+    res.mode is "managed" and
+    res.type is "aws_instance" and
+    res.change.actions is ["create"]
 }
 
 # Allowed Types
-allowed_types = [
+req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/approved-instances.json")
+res = json.unmarshal(http.get(req).body)
+allowed_types = res["approved-instances"]
+old_types = [
     "Standard_A1_v2",
     "Standard_A2_v2",
     "Standard_A4_v2",
     "Standard_A8_v2",
 ]
 
-aws_instances = get_aws_instances()
+# aws_instances = get_aws_instances()
 
 # Rule to restrict instance types
-instance_type_allowed = rule {
-    all aws_instances as _, instances {
-        all instances as index, r {
-            r.applied.instance_type in allowed_types
-        }
-    }
-}
-  
+# instance_type_allowed = any aws_instances as _, instances {
+#     any instances as index, r {
+#         r.applied.instance_type in allowed_types
+#     }
+# }
+
+print(aws_instances)
+
+print(allowed_types)
+
+print(old_types)
+
 # Main rule that requires other rules to be true
 main = rule {
-   (instance_type_allowed) else true
+   # (instance_type_allowed) else true
+   true
 }
