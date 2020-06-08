@@ -52,4 +52,4 @@ use_modules = func() {
 }
 
 # If true, we passed!
-main = rule { use_modules }
+main = rule { use_modules() }
