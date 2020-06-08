@@ -15,5 +15,5 @@ policy "prevent-destroy" {
 }
 
 policy "limit-custom-resources" {
-    enforcement_level = "advisory"
+    enforcement_level = "hard-mandatory"
 }

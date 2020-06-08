@@ -1,16 +1,35 @@
 import "tfplan/v2" as tfplan
+import "tfconfig/v2" as tfconfig
+import "strings"
 
-prohibited_res = [
+prohibited_resources = [
     "azurerm_resource_group",
     "azurerm_virtual_network",
     "azurerm_network_security_group",
     "azurerm_subnet_network_security_group_association",
 ]
 
-main = rule {
-    all filter tfplan.resource_changes as _, res {
-        res.type in prohibited_res
-    } as _, res {
-        res.module_address is ""
+required_modules = [
+    "custom-vnet",
+    "custom-sg",
+    "custom-blob",
+]
+
+# Get all referenced modules
+get_modules = func() {
+    modules = []
+    for tfconfig.module_calls as mod {
+        modname = strings.split(tfconfig.module_calls[mod].source, "/")[2]
+        if modname in required_modules {
+            append(modules, mod)
+        }
     }
+    return modules
 }
+
+violations = all filter tfplan.resource_changes as _, res {
+    res.type in prohibited_resources and
+    res.module_address not in required_modules
+}
+
+main = rule { length(violations) == 0 }
