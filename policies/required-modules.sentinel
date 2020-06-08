@@ -6,15 +6,14 @@
 #
 
 import "tfconfig/v2" as tfconfig
-
-
-print(tfconfig.module_calls)
+import strings
 
 # Get all referenced modules
 get_modules = func() {
     modules = []
     for tfconfig.module_calls as mod {
-        append(modules, mod)
+        modname = strings.split(mod.source, "/")[2]
+        append(modules, modname)
     }
     return modules
 }
