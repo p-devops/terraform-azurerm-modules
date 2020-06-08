@@ -13,20 +13,13 @@ import "json"
 
 aws_instances = filter tfplan.resource_changes as _, res {
     res.mode is "managed" and
-    res.type is "aws_instance" and
-    res.change.actions is ["create"]
+    res.type is "aws_instance"
 }
 
 # Allowed Types
 req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/approved-instances.json")
 res = json.unmarshal(http.get(req).body)
 allowed_types = res["approved-instances"]
-old_types = [
-    "Standard_A1_v2",
-    "Standard_A2_v2",
-    "Standard_A4_v2",
-    "Standard_A8_v2",
-]
 
 # aws_instances = get_aws_instances()
 
@@ -38,10 +31,6 @@ old_types = [
 # }
 
 print(aws_instances)
-
-print(allowed_types)
-
-print(old_types)
 
 # Main rule that requires other rules to be true
 main = rule {
