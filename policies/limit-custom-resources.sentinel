@@ -1,5 +1,9 @@
 import "tfplan/v2" as tfplan
 
-print(tfplan.resource_changes)
+for tfplan.resource_changes as res {
+    print(tfplan.resource_changes[res])
+    # tfconfig.module_calls[mod].source
+    # append(modules, modname[2])
+}
 
 main = true
