@@ -7,14 +7,12 @@
 
 import "tfconfig/v2" as tfconfig
 import "strings"
-import "json"
 
 # Get all referenced modules
 get_modules = func() {
     modules = []
     for tfconfig.module_calls as mod {
-        obj = json.unmarshal(mod)
-        modname = strings.split(obj.source, "/")
+        modname = strings.split(mod["source"], "/")
         append(modules, modname[2])
     }
     return modules
