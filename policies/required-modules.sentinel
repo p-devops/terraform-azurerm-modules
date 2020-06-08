@@ -13,9 +13,9 @@ get_modules = func() {
     modules = []
     for tfconfig.module_calls as mod {
         print(mod)
-        print(tfconfig.module_calls[mod])
-        # modname = strings.split(mod["source"], "/")
-        # append(modules, modname[2])
+        print(tfconfig.module_calls[mod].source)
+        modname = strings.split(tfconfig.module_calls[mod].source, "/")
+        append(modules, modname[2])
     }
     return modules
 }
