@@ -43,30 +43,30 @@ module "custom_vm" {
     vm_size = var.vm_size
 }
 
-resource "azurerm_network_security_group" "network-sg-2" {
-    name                = "${var.identifier}-sg-2"
-    location            = var.location
-    resource_group_name = module.vnet.res_group_name
+# resource "azurerm_network_security_group" "network-sg-2" {
+#     name                = "${var.identifier}-sg-2"
+#     location            = var.location
+#     resource_group_name = module.vnet.res_group_name
 
-    security_rule {
-        name                       = "Admin"
-        priority                   = 1001
-        direction                  = "Inbound"
-        access                     = "Allow"
-        protocol                   = "Tcp"
-        source_port_range          = "*"
-        destination_port_range     = "8080"
-        source_address_prefix      = "*"
-        destination_address_prefix = "*"
-    }
+#     security_rule {
+#         name                       = "Admin"
+#         priority                   = 1001
+#         direction                  = "Inbound"
+#         access                     = "Allow"
+#         protocol                   = "Tcp"
+#         source_port_range          = "*"
+#         destination_port_range     = "8080"
+#         source_address_prefix      = "*"
+#         destination_address_prefix = "*"
+#     }
 
-    tags = {
-        environment = "Terraform Demo"
-        Key = "DoNotDelete"
-    }
-}
+#     tags = {
+#         environment = "Terraform Demo"
+#         Key = "DoNotDelete"
+#     }
+# }
 
-resource "azurerm_subnet_network_security_group_association" "nsg-assoc-2" {
-    subnet_id                 = module.vnet.subnet_id
-    network_security_group_id = azurerm_network_security_group.network-sg-2.id
-}
+# resource "azurerm_subnet_network_security_group_association" "nsg-assoc-2" {
+#     subnet_id                 = module.vnet.subnet_id
+#     network_security_group_id = azurerm_network_security_group.network-sg-2.id
+# }
