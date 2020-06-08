@@ -2,19 +2,15 @@ import "tfplan/v2" as tfplan
 import "tfconfig/v2" as tfconfig
 import "strings"
 import "http"
+import "json"
 
-prohibited_resources = [
-    "azurerm_resource_group",
-    "azurerm_virtual_network",
-    "azurerm_network_security_group",
-    "azurerm_subnet_network_security_group_association",
-]
+req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/prohibited-resources.json")
+res = json.unmarshal(http.get(req).body)
+prohibited_resources = res["blacklist"]
 
-required_modules = [
-    "custom-vnet",
-    "custom-sg",
-    "custom-blob",
-]
+req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/required-modules.json")
+res = json.unmarshal(http.get(req).body)
+required_modules = res["required-modules"]
 
 # Get all referenced modules
 get_modules = func() {
@@ -36,13 +32,4 @@ violations = filter tfplan.resource_changes as _, res {
     res.module_address not in module_list
 }
 
-
-print("Modules:")
-print(module_list)
-
-print()
-
-print ("Violations:")
-print(violations)
-
-main = rule { length(violations) == 0 }
+main = rule { length(violations) is 0 }

@@ -11,9 +11,9 @@ import "json"
 #     return instances
 # }
 
-aws_instances = filter tfplan.resource_changes as _, res {
+azure_vms = filter tfplan.resource_changes as _, res {
     res.mode is "managed" and
-    res.type is "aws_instance"
+    res.type is "azurerm_virtual_machine"
 }
 
 # Allowed Types
@@ -30,7 +30,7 @@ allowed_types = res["approved-instances"]
 #     }
 # }
 
-print(aws_instances)
+print(azure_vms)
 
 # Main rule that requires other rules to be true
 main = rule {

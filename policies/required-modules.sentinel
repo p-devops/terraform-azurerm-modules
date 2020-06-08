@@ -19,11 +19,9 @@ get_modules = func() {
 }
 
 # These modules are required to be used
-required_modules = [
-    "custom-vnet",
-    "custom-sg",
-    "custom-blob",
-]
+req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/required-modules.json")
+res = json.unmarshal(http.get(req).body)
+required_modules = res["required-modules"]
 
 # Store modules in a global variable
 selected_modules = get_modules()
