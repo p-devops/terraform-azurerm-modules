@@ -12,8 +12,9 @@ import "strings"
 get_modules = func() {
     modules = []
     for tfconfig.module_calls as mod {
-        modname = strings.split(mod["source"], "/")
-        append(modules, modname[2])
+        print(mod)
+        # modname = strings.split(mod["source"], "/")
+        # append(modules, modname[2])
     }
     return modules
 }
