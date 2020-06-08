@@ -19,7 +19,7 @@ required_modules = [
 get_modules = func() {
     modules = []
     for tfconfig.module_calls as mod {
-        modname = strings.split(tfconfig.module_calls[mod].source, "/")[2]
+        modname = "module." + strings.split(tfconfig.module_calls[mod].source, "/")[2]
         if modname in required_modules {
             append(modules, mod)
         }
