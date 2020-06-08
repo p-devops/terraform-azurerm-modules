@@ -8,7 +8,8 @@ prohibited_res = [
 
 main = rule {
     all filter tfplan.resource_changes as _, res {
-        res.type in prohibited_res and
+        res.type in prohibited_res
+    } as _, res {
         res.module_address is ""
     }
 }
