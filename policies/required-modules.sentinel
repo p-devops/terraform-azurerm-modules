@@ -7,6 +7,7 @@
 
 import "tfconfig/v2" as tfconfig
 import "strings"
+import "http"
 
 # Get all referenced modules
 get_modules = func() {
