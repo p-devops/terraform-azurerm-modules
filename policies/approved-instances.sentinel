@@ -1,6 +1,7 @@
 import "tfplan/v2" as tfplan
 import "http"
 import "json"
+import "strings"
 
 # Get all Azure VMs from all modules
 azure_vms = filter tfplan.resource_changes as _, res {
@@ -16,14 +17,14 @@ allowed_types_orig = res["approved-instances"]
 # Convert to lower case
 allowed_types = []
 for allowed_types_orig as a {
-    append(allowed_types, string.to_lower(a))
+    append(allowed_types, strings.to_lower(a))
 }
 
 # Rule to restrict instance types
 instance_type_allowed = func(vms, types) {
     for vms as _, vm {
         if vm.change.after is not null {
-            vmsize = string.to_lower(vm.change.after.vm_size)
+            vmsize = strings.to_lower(vm.change.after.vm_size)
             if vmsize not in types {
                 print("VM Size of " + vm.change.after.vm_size + " is not allowed")
                 return false
