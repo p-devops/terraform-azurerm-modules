@@ -16,10 +16,12 @@ allowed_types = res["approved-instances"]
 # Rule to restrict instance types
 instance_type_allowed = func(vms, types) {
     for vms as _, vm {
-        vmsize = vm.change.after.vm_size
-        if vmsize not in types {
-            print("VM Size of " + vmsize + " is not allowed")
-            return false
+        if vm is not null {
+            vmsize = vm.change.after.vm_size
+            if vmsize not in types {
+                print("VM Size of " + vmsize + " is not allowed")
+                return false
+            }
         }
     }
     print("All declared VMs are in the approved list")
