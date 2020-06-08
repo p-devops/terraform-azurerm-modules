@@ -22,10 +22,9 @@ instance_type_allowed = func(vms, types) {
             return false
         }
     }
+    print("All declared VMs are in the approved list")
     return true
 }
-
-print(azure_vms)
 
 # Main rule that requires other rules to be true
 main = rule { instance_type_allowed(azure_vms, allowed_types) }

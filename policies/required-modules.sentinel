@@ -1,7 +1,8 @@
 #
-# This module enforces the usage of required modules. An infrastructure team, 
-# for instance, may produce a standard set of modules for engineering 
-# teams to consume. In order to reduce risk, this policy enforces 
+# This module enforces the usage of required modules. 
+# An infrastructure team, for instance, may produce a 
+# standard set of modules for engineering teams to 
+# consume. In order to reduce risk, this policy enforces 
 # the usage of those modules. 
 #
 
@@ -14,7 +15,9 @@ import "http"
 get_modules = func() {
     modules = []
     for tfconfig.module_calls as mod {
+        # We just want to get the short name of the module
         modname = strings.split(tfconfig.module_calls[mod].source, "/")
+        # Add the module to our list
         append(modules, modname[2])
     }
     return modules

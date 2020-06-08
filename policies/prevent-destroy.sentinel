@@ -1,5 +1,10 @@
 #
 # This module prevents resources from being deleted. 
+# Ideally, blanket delete suppression is not recommended. 
+# However, there are occasions when accidental deletions 
+# could be catastrophic. So having the ability to either 
+# completely prevent, or provide an override mechanism, 
+# would be helpful.
 #
 
 import "tfplan/v2" as plan
@@ -9,5 +14,5 @@ delete_actions = filter plan.resource_changes as _, rc {
     "delete" in rc.change.actions
 }
 
-# if the delete list is not empty, then we fail the rule
+# If the list is empty, we passed!
 main = rule { length(delete_actions) is 0 }

@@ -1,13 +1,27 @@
+# 
+# This policy allows you to specify resources which are 
+# not allowed to be created except for when they may be 
+# created from mandatory modules.
+# 
+# For example: A workspace is required to use a standard 
+# security group module from the private module registry. 
+# However, that workspace may not create any other 
+# security groups, whether explicitly or from another 
+# module.
+# 
+
 import "tfplan/v2" as tfplan
 import "tfconfig/v2" as tfconfig
 import "strings"
 import "http"
 import "json"
 
+# Get the list of prohibited resources
 req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/prohibited-resources.json")
 res = json.unmarshal(http.get(req).body)
 prohibited_resources = res["blacklist"]
 
+# Get the list of required modules
 req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/required-modules.json")
 res = json.unmarshal(http.get(req).body)
 required_modules = res["required-modules"]
@@ -16,20 +30,35 @@ required_modules = res["required-modules"]
 get_modules = func() {
     modules = []
     for tfconfig.module_calls as mod {
+        # Get the short name of the module instead of the entire path.
         modname = strings.split(tfconfig.module_calls[mod].source, "/")[2]
         if modname in required_modules {
+            # Prepend "module." due to sentinel nomenclature
             modmod = "module." + mod
+            # Add to list
             append(modules, modmod)
         }
     }
     return modules
 }
 
+# Get the module list
 module_list = get_modules()
 
+# Get a list of violations
 violations = filter tfplan.resource_changes as _, res {
     res.type in prohibited_resources and
     res.module_address not in module_list
 }
 
+if length(violations) is not 0 {
+    print("The following resources cannot be create:")
+    for violations as v {
+        print("   " + v.type)
+    }
+} else {
+    print("No violations were found.")
+}
+
+# If the list if empty, we passed!
 main = rule { length(violations) is 0 }
