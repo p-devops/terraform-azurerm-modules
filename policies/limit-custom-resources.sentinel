@@ -1,0 +1,5 @@
+import "tfplan/v2" as tfplan
+
+print(tfplan.resource_changes)
+
+main = true

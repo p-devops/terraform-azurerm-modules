@@ -13,3 +13,7 @@ policy "enforce-mandatory-tags" {
 policy "prevent-destroy" {
     enforcement_level = "hard-mandatory"
 }
+
+policy "limit-custom-resources" {
+    enforcement_level = "advisory"
+}
