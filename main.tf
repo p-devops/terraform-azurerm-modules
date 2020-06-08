@@ -21,13 +21,13 @@ module "custom_sg" {
 
 }
 
-# module "blob" {
-#     source  = "app.terraform.io/kevindemos/custom-blob/azure"
-#     version = "1.0.0"
+module "blob" {
+    source  = "app.terraform.io/kevindemos/custom-blob/azure"
+    version = "1.0.0"
 
-#     location = var.location
-#     res_group_name = module.vnet.res_group_name
-# }
+    location = var.location
+    res_group_name = module.vnet.res_group_name
+}
 
 module "custom_vm" {
     source  = "app.terraform.io/kevindemos/custom-vm/azure"
