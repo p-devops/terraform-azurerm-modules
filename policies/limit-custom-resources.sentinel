@@ -52,7 +52,7 @@ violations = filter tfplan.resource_changes as _, res {
 }
 
 if length(violations) is not 0 {
-    print("The following resources cannot be create:")
+    print("The following resources cannot be created:")
     for violations as _, v {
         print("   " + v.type)
     }
