@@ -11,15 +11,21 @@ azure_vms = filter tfplan.resource_changes as _, res {
 # Allowed Types
 req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/approved-instances.json")
 res = json.unmarshal(http.get(req).body)
-allowed_types = res["approved-instances"]
+allowed_types_orig = res["approved-instances"]
+
+# Convert to lower case
+allowed_types = []
+for allowed_types_orig as a {
+    append(allowed_types, string.to_lower(a))
+}
 
 # Rule to restrict instance types
 instance_type_allowed = func(vms, types) {
     for vms as _, vm {
         if vm.change.after is not null {
-            vmsize = vm.change.after.vm_size
+            vmsize = string.to_lower(vm.change.after.vm_size)
             if vmsize not in types {
-                print("VM Size of " + vmsize + " is not allowed")
+                print("VM Size of " + vm.change.after.vm_size + " is not allowed")
                 return false
             }
         }
