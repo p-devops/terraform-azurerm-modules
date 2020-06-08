@@ -15,8 +15,8 @@ allowed_types = res["approved-instances"]
 
 # Rule to restrict instance types
 instance_type_allowed = func(vms, types) {
-    for vms as vm {
-        vmsize = tfplan.resource_changes[vm].change.after.vm_size
+    for vms as _, vm {
+        vmsize = vm.change.after.vm_size
         if vmsize not in types {
             print("VM Size of " + vmsize + " is not allowed")
             return false
