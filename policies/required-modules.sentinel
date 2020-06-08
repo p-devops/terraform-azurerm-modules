@@ -5,12 +5,12 @@
 # the usage of those modules. 
 #
 
-import "tfconfig"
+import "tfconfig/v2" as tfconfig
 
 # Get all referenced modules
 get_modules = func() {
     modules = []
-    for tfconfig.modules as mod {
+    for tfconfig.default as mod {
         append(modules, mod)
     }
     return modules
