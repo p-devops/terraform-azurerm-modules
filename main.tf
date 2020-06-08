@@ -28,6 +28,6 @@ module "custom_vm" {
   location = var.location
   res_group_name = module.vnet.res_group_name
   storage_endpoint = module.blob.storage_endpoint
-  subnet_id = var.subnet_id
+  subnet_id = module.vnet.subnet_id
   vm_size = var.vm_size
 }
