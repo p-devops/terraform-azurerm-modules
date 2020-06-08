@@ -33,5 +33,7 @@ use_modules = rule {
     }
 }
 
+print selected_modules
+
 # Evaluate for main rule; must evaluate to true to pass
 main = rule { (use_modules) else true }
