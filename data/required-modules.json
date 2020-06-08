@@ -2,7 +2,6 @@
     "required-modules": [
         "custom-vnet",
         "custom-sg",
-        "custom-blob",
-        "custom-something"
+        "custom-blob"
     ]
 }
