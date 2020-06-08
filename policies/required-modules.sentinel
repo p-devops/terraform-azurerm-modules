@@ -10,7 +10,7 @@ import "tfconfig/v2" as tfconfig
 # Get all referenced modules
 get_modules = func() {
     modules = []
-    for tfconfig.modules_calls as mod {
+    for tfconfig.module_calls as mod {
         append(modules, mod.name)
     }
     return modules
