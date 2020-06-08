@@ -31,7 +31,7 @@ module "blob" {
 
 module "custom_vm" {
     source  = "app.terraform.io/kevindemos/custom-vm/azure"
-    version = "1.0.2"
+    version = "1.0.3"
 
     identifier = var.identifier
     linux_password = var.linux_password
