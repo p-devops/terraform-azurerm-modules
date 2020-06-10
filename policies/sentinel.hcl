@@ -15,7 +15,7 @@ policy "enforce-mandatory-tags" {
 }
 
 policy "prevent-destroy" {
-    enforcement_level = "hard-mandatory"
+    enforcement_level = "soft-mandatory"
 }
 
 policy "limit-custom-resources" {
