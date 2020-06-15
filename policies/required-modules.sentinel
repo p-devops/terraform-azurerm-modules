@@ -32,7 +32,7 @@ required_modules = res["required-modules"]
 selected_modules = get_modules()
 
 print("Required modules:")
-print(require_modules)
+print(required_modules)
 
 print("Selected modules:")
 print(selected_modules)
