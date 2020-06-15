@@ -31,6 +31,12 @@ required_modules = res["required-modules"]
 # Store modules in a global variable
 selected_modules = get_modules()
 
+print("Required modules:")
+print(require_modules)
+
+print("Selected modules:")
+print(selected_modules)
+
 # Rule to ensure all required modules are used
 use_modules = func() {
     missing = []
