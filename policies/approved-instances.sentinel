@@ -10,7 +10,7 @@ azure_vms = filter tfplan.resource_changes as _, res {
 }
 
 # Allowed Types
-req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/approved-instances.json")
+req = http.request("http://sentinel-data.kcochran.azure.hashidemos.io:8080/list/approved-instances")
 res = json.unmarshal(http.get(req).body)
 allowed_types_orig = res["approved-instances"]
 

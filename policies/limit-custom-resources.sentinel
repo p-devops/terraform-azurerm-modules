@@ -17,12 +17,12 @@ import "http"
 import "json"
 
 # Get the list of prohibited resources
-req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/prohibited-resources.json")
+req = http.request("http://sentinel-data.kcochran.azure.hashidemos.io:8080/list/prohibited-resources")
 res = json.unmarshal(http.get(req).body)
 prohibited_resources = res["blacklist"]
 
 # Get the list of required modules
-req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/required-modules.json")
+req = http.request("http://sentinel-data.kcochran.azure.hashidemos.io:8080/list/required-modules")
 res = json.unmarshal(http.get(req).body)
 required_modules = res["required-modules"]
 
