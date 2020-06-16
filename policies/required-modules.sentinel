@@ -24,7 +24,7 @@ get_modules = func() {
 }
 
 # These modules are required to be used
-req = http.request("http://sentinel-data.kcochran.azure.hashidemos.io/list/required-modules")
+req = http.request("http://sentinel-data.kcochran.azure.hashidemos.io:8080/list/required-modules")
 res = json.unmarshal(http.get(req).body)
 required_modules = res
 
