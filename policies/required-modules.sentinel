@@ -24,9 +24,9 @@ get_modules = func() {
 }
 
 # These modules are required to be used
-req = http.request("https://raw.githubusercontent.com/kevincloud/terraform-azure-modules/master/data/required-modules.json")
+req = http.request("http://sentinel-data.kcochran.azure.hashidemos.io/list/required-modules")
 res = json.unmarshal(http.get(req).body)
-required_modules = res["required-modules"]
+required_modules = res
 
 # Store modules in a global variable
 selected_modules = get_modules()
