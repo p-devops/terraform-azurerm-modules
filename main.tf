@@ -3,7 +3,7 @@ provider "azurerm" {
 }
 
 module "vnet" {
-    source  = "app.terraform.io/kevindemos/custom-vnet/azurerm"
+    source  = "app.terraform.io/peter-demo/custom-vnet/azurerm"
     version = "1.0.0"
 
     identifier = var.identifier
@@ -11,7 +11,7 @@ module "vnet" {
 }
 
 module "custom_sg" {
-    source  = "app.terraform.io/kevindemos/custom-sg/azurerm"
+    source  = "app.terraform.io/peter-demo/custom-sg/azurerm"
     version = "1.0.0"
 
     res_group_name = module.vnet.res_group_name
@@ -22,7 +22,7 @@ module "custom_sg" {
 }
 
 module "blob" {
-    source  = "app.terraform.io/kevindemos/custom-blob/azurerm"
+    source  = "app.terraform.io/peter-demo/custom-blob/azurerm"
     version = "1.0.0"
 
     location = var.location
@@ -30,7 +30,7 @@ module "blob" {
 }
 
 module "custom_vm" {
-    source  = "app.terraform.io/kevindemos/custom-vm/azurerm"
+    source  = "app.terraform.io/peter-demo/custom-vm/azurerm"
     version = "1.0.3"
 
     identifier = var.identifier
